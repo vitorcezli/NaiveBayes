@@ -4,4 +4,4 @@ A NaiveBayes implementation for text classification, based on Machine Learning, 
 
 java NaiveBayes -t \[training file\] \[object\]: outputs an object that will be used later for classification.
 
-java NaiveBayes -c \[object\] \[file that will be classified\] \[file with the results\]: outputs a file with the classification results.
+java NaiveBayes -c \[object\] \[file that will be classified\] \[result file\]: outputs a file with the classification results.
