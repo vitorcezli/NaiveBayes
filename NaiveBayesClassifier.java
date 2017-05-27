@@ -16,11 +16,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * Naive Bayes for text classification implementation
  * @author vitorcezar
  */
-public class NaiveBayesClassifier {
+public class NaiveBayesClassifier implements Serializable {
     
     /**
      * Bag of words for words information
@@ -71,6 +78,57 @@ public class NaiveBayesClassifier {
         numberPositiveExample = 0;
         falseProbability = INVALID;
         trueProbability = INVALID;
+    }
+    
+    /**
+     * saves this classifier for future classifications
+     * @param path the output's path
+     * @param naiveBayes the classifier that will be saved
+     */
+    public static void saveClassifier( String path, 
+        NaiveBayesClassifier naiveBayes ) {
+        FileOutputStream fileOutputStream = null;
+	    ObjectOutputStream objectOutputStream = null;
+
+	    try {
+            fileOutputStream = new FileOutputStream( path );
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject( naiveBayes );
+        } catch( Exception ex ) {
+            ex.printStackTrace();
+        } finally {
+            if( fileOutputStream != null ) {
+                try {
+                    fileOutputStream.close();
+                } catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+            if( objectOutputStream != null ) {
+                try {
+                    objectOutputStream.close();
+                } catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    /**
+     * returns a NaiveBayes classifier
+     * @param path the path of the classifier
+     * @return a NaiveBayes classifier
+     */
+    public static NaiveBayesClassifier loadClassifier( String path ) 
+        throws Exception {
+        FileInputStream fileInputStream = new FileInputStream( path );
+        ObjectInputStream outputInputStream = 
+            new ObjectInputStream( fileInputStream );
+        NaiveBayesClassifier naiveBayes =
+            ( NaiveBayesClassifier ) outputInputStream.readObject();
+        outputInputStream.close();
+        fileInputStream.close();
+        return naiveBayes;
     }
     
     /**
