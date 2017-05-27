@@ -1,6 +1,6 @@
 # NaiveBayes
 
-A NaiveBayes implementation for text classification, based on Machine Learning, Tom Mitchell. The texts used for training and classification must be between double quotes and the target function must appear on the beginning of the line and separated from the text by comma. See tweets.txt for training and inputs.txt for classification format.
+A NaiveBayes implementation for text classification, based on Machine Learning, Tom Mitchell. The texts used for training and classification must be between double quotes and the target function must appear on the beginning of the line and separated from the text by comma. It's recommended to remove any kind of punctuation from the text. As examples, see tweets.txt for training and inputs.txt for classification format.
 
 Use 'make' for compilation. The commands are:
 
