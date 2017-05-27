@@ -50,7 +50,7 @@ public class NaiveBayes {
      * prints file error and exit the program
      */
     private static void printFileError( String file ) {
-        System.out.printf( "File %s not found", file );
+        System.out.printf( "File %s not found\n", file );
         System.exit( 1 );
     }
     
