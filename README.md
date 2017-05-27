@@ -2,4 +2,6 @@
 
 A NaiveBayes implementation for text classification, based on Machine Learning, Tom Mitchell. Use 'make' for compilation. The commands are:
 
-java -c NaiveBayes \[training file\] \[object output\] that outputs an object. This object will be used later for classification.
+java NaiveBayes -t \[training file\] \[object\]: outputs an object that will be used later for classification.
+
+java NaiveBayes -c \[object\] \[file that will be classified\] \[file with the results\]: outputs a file with the classification results.
