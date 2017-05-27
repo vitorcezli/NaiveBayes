@@ -12,4 +12,4 @@ java NaiveBayes -c \[object\] \[file that will be classified\] \[result file\]: 
 
 
 
-The commands 'make object' and 'make classify' were created to show how to use this class.
+The commands 'make object' and 'make classify' were created to show how to use this class. The tweets.txt file was taken from http://technobium.com/wordpress/wp-content/uploads/2015/01/tweets.txt and modified.
