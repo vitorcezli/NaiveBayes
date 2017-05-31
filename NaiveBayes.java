@@ -70,6 +70,10 @@ public class NaiveBayes {
             if( args.length != 4 ) {
                 printArgumentError();
             }
+        } else if( args[ 0 ].equals( "-a" ) ) {
+            if( args.length != 3 ) {
+                printArgumentError();
+            }
         } else {
             printArgumentError();
         }
@@ -163,6 +167,35 @@ public class NaiveBayes {
     }
     
     /**
+     * avaliates classification comparing the classification file with the
+     * answer
+     * @param path1 classification file's path
+     * @param path2 answer file's path
+     */
+    private static void avaliateClassification( String path1, String path2 ) {
+        try {
+            Scanner scanner2 = new Scanner( new File( path1 ) );
+            Scanner scanner1 = new Scanner( new File( path2 ) );
+            int right = 0;
+            int amount = 0;
+
+            while( scanner1.hasNext() && scanner2.hasNext() ) {
+                amount++;
+                char classification1 = scanner1.nextLine().charAt( 0 );
+                char classification2 = scanner2.nextLine().charAt( 0 );
+                
+                if( classification1 == classification2 ) {
+                    right++;
+                }
+            }
+            System.out.printf( "Prediction: %f\n", ( double ) right /
+                ( double ) amount );
+        } catch( FileNotFoundException e ) {
+            printFileError( path1 + " or " + path2 );
+        }
+    }
+
+    /**
      * @param args the command line arguments
      */
     public static void main( String[] args ) {
@@ -172,6 +205,8 @@ public class NaiveBayes {
             NaiveBayesClassifier naiveBayes = new NaiveBayesClassifier();
             trainClassifier( naiveBayes, args[ 1 ] );
             NaiveBayesClassifier.saveClassifier( args[ 2 ], naiveBayes );
+        } else if( args[ 0 ].equals( "-a" ) ) {
+            avaliateClassification( args[ 1 ], args[ 2 ] );
         } else {
             try {
                 NaiveBayesClassifier naiveBayes = 
