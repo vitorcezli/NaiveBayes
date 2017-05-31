@@ -10,7 +10,7 @@ java NaiveBayes -t \[training file\] \[object\]: outputs an object that will be 
 
 java NaiveBayes -c \[object\] \[file that will be classified\] \[result file\]: outputs a file with the classification results.
 
-java NaiveBayes -a \[classification file results\] \[answers file\]: prints the percent of correctly classified items.
+java NaiveBayes -a \[classification file results\] \[file with answers\]: prints the percent of correctly classified items.
 
 
 
