@@ -53,6 +53,29 @@ public class NaiveBayesClassifier implements Serializable {
      * the chance of an example be true
      */
     private double trueProbability;
+
+    /**
+     * counts the number of times the negative probability has crossed
+     * the limit value
+     */
+    private int limitOnNegative;
+
+    /**
+     * counts the number of times the positive probability has crossed
+     * the limit value
+     */
+    private int limitOnPositive;
+
+    /**
+     * a probability can't be less than this number
+     */
+    private final static double LIMIT = 0.001;
+
+    /**
+     * the probability must be multiplied by this value if it's less
+     * than the limit value
+     */
+    private final static double MULTIPLICATION_ON_LIMIT = 1000;
     
     /**
      * definition for invalid probability value
@@ -92,7 +115,7 @@ public class NaiveBayesClassifier implements Serializable {
 
 	    try {
             fileOutputStream = new FileOutputStream( path );
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream = new ObjectOutputStream( fileOutputStream );
             objectOutputStream.writeObject( naiveBayes );
         } catch( Exception ex ) {
             ex.printStackTrace();
@@ -155,6 +178,8 @@ public class NaiveBayesClassifier implements Serializable {
      * @return the example's classification
      */
     public int classify( String stringToClassify ) {
+        limitOnPositive = 0;
+        limitOnNegative = 0;
         int numberExamples = numberPositiveExample + numberNegativeExample;
         double percentTrue = ( double ) ( numberPositiveExample ) /
             ( double ) ( numberExamples );
@@ -164,7 +189,16 @@ public class NaiveBayesClassifier implements Serializable {
             percentFalse;
         trueProbability = probability( stringToClassify, true ) *
             percentTrue;
-        
+
+        /* normalizes based on the number of times each probability has passed
+        the limit */
+        int difference = limitOnPositive - limitOnNegative;
+        if( difference > 0 ) {
+            falseProbability *= Math.pow( MULTIPLICATION_ON_LIMIT, difference );
+        } else if( difference < 0 ) {
+            trueProbability *= Math.pow( MULTIPLICATION_ON_LIMIT, -difference );
+        }
+
         // returns the classification
         if( trueProbability > falseProbability ) {
             return TRUE;
@@ -224,10 +258,18 @@ public class NaiveBayesClassifier implements Serializable {
         if( positive ) {
             for( String word : words ) {
                 returnProbability *= bagOfWords.probabilityAsPositive( word );
+                if( returnProbability < LIMIT ) {
+                    returnProbability *= MULTIPLICATION_ON_LIMIT;
+                    limitOnPositive++;
+                }
             }
         } else {
             for( String word : words ) {
                 returnProbability *= bagOfWords.probabilityAsNegative( word );
+                if( returnProbability < LIMIT ) {
+                    returnProbability *= MULTIPLICATION_ON_LIMIT;
+                    limitOnNegative++;
+                }
             }
         }
         return returnProbability;
