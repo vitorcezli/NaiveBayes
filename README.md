@@ -10,6 +10,8 @@ java NaiveBayes -t \[training file\] \[object\]: outputs an object that will be 
 
 java NaiveBayes -c \[object\] \[file that will be classified\] \[result file\]: outputs a file with the classification results.
 
+java NaiveBayes -a \[classification file results\] \[answers file\]: prints the percent of correctly classified items.
+
 
 
 The commands 'make object' and 'make classify' were created to show how to use this class. The tweets.txt file was taken from http://technobium.com/wordpress/wp-content/uploads/2015/01/tweets.txt and modified.
